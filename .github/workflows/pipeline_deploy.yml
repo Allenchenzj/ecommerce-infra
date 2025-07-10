@@ -1,0 +1,36 @@
+on:
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+  workflow_dispatch:
+  
+env:
+  AWS_REGION: "ap-southeast-2"
+  WORKING_DIR: "infra/"
+  TF_VERSION: "1.10.1"
+
+jobs:
+  terraform_plan:
+    name: "Terraform Run"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # - name: Set Dynamic Environment Variables
+      #   id: set_env_vars
+      #   run: |
+      #     echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
+      #     echo "BACKEND_CONFIG_PATH=backend_config/${{ github.event.inputs.env }}.tfvars" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role"
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: "GitHubActionsSession"
+
+      - name: Validate the role works
+        run: aws s3 ls

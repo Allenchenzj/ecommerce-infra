@@ -1,0 +1,6 @@
+s3:
+  bucket: "ecommerce-data-ww"
+  prefix: "ecommerce-raw"
+  
+output:
+  ddl_dir: "./output/ddl"
