@@ -3,11 +3,16 @@ on:
     branches: [main]
     paths:
       - "infra/**"
+  pull_request: 
+    branches: [main]
+    paths:
+      - "infra/**"
   workflow_dispatch:
   
 permissions:
-  id-token: write
-  contents: read
+  id-token: write # This is required for requesting the JWT(JSON Web Token) through OIDC
+  contents: read # This is required for actions/checkout
+  pull-requests: write # This is required for adding Terraform plan detail as comment to the PR
 
 env:
   AWS_REGION: "ap-southeast-2"
@@ -16,7 +21,7 @@ env:
 
 jobs:
   terraform_plan:
-    name: "Terraform Run"
+    name: Terraform Plan
     runs-on: ubuntu-latest
 
     steps:
