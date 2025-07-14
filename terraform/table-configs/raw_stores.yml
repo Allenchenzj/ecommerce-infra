@@ -1,0 +1,20 @@
+table_name: raw_stores
+schema: bronze
+description: Raw store data from source systems
+columns:
+  - name: ID
+    type: VARCHAR(255)
+    nullable: false
+    description: Unique identifier for the store
+  - name: NAME
+    type: VARCHAR(255)
+    nullable: true
+    description: Name of the store
+  - name: OPENED_AT
+    type: TIMESTAMP_NTZ
+    nullable: true
+    description: Timestamp when the store was opened
+  - name: TAX_RATE
+    type: NUMBER
+    nullable: true
+    description: Tax rate applicable to the store

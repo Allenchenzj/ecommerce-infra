@@ -1,0 +1,113 @@
+name: "Deploy Resources"
+
+on:
+  push:
+    paths:
+      - "terraform/**"
+    branches: [terraform_cicd]
+  pull_request:
+    paths:
+      - "terraform/**"
+    branches: [terraform_cicd]
+
+env:
+  AWS_REGION: "ap-southeast-2"
+  WORKING_DIR: "terraform"
+  TF_VERSION: "1.10.1"
+  TARGET_ENV: "production"
+
+permissions:
+  id-token: write # This is required for requesting the JWT through OIDC
+  contents: read # This is required for actions/checkout
+  pull-requests: write # This is required for adding Terraform plan detail as comment to the PR
+
+# Will queue job according to default settings
+concurrency: production_environment
+
+jobs:
+  terraform_plan:
+    name: "Terraform Run"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set Snowflake Variables
+        run: |
+          source ./terraform/set-snowflake-vars.sh
+
+      # - name: Set Dynamic Environment Variables
+      #   id: set_env_vars
+      #   run: |
+      #     echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role"
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init --backend-config=backend_config/${{ env.TARGET_ENV }}.tfvars
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false -var-file "./deploy_env/${{ env.TARGET_ENV }}.tfvars"
+        working-directory: ${{ env.WORKING_DIR }}
+
+  terraform_apply:
+    name: Terraform Apply
+    if: github.ref == 'refs/heads/main'
+    needs: [terraform_plan]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+  
+      - name: Set Snowflake Variables
+        run: |
+          source ./terraform/set-snowflake-vars.sh
+
+      # - name: Set Dynamic Environment Variables
+      #   id: set_env_vars
+      #   run: |
+      #     echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role"
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Format
+        working-directory: ./terraform
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: terraform init --backend-config=backend_config/${{ env.TARGET_ENV }}.tfvars
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Apply
+        run: terraform apply --auto-approve -var-file "./deploy_env/${{ env.TARGET_ENV }}.tfvars"
+        working-directory: "${{ env.WORKING_DIR }}"

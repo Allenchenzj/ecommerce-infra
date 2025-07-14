@@ -1,0 +1,12 @@
+table_name: raw_customers
+schema: bronze
+description: Raw customer data from source systems
+columns:
+  - name: ID
+    type: VARCHAR(255)
+    nullable: false
+    description: Unique identifier for the customer
+  - name: NAME
+    type: VARCHAR(255)
+    nullable: true
+    description: Name of the customer
