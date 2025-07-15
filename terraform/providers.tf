@@ -47,3 +47,4 @@ provider "snowflake" {
   warehouse         = var.snowflake.snowflake_warehouse
 
 }
+
