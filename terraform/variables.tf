@@ -40,3 +40,4 @@ variable "snowflake_database" {
   type        = string
   default     = "ECOMMERENCE_DB_AC"
 }
+
