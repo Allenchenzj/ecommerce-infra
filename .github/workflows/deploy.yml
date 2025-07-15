@@ -68,6 +68,12 @@ jobs:
         run: terraform plan -no-color -input=false -var-file "./deploy_env/${{ env.TARGET_ENV }}.tfvars"
         working-directory: ${{ env.WORKING_DIR }}
 
+      - name: Debug OIDC Token
+        run: |
+          echo "OIDC Token: $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
+        env:
+          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ secrets.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
+
   terraform_apply:
     name: Terraform Apply
     if: github.ref == 'refs/heads/main'
