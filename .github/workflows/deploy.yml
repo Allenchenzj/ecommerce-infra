@@ -14,7 +14,7 @@ env:
   AWS_REGION: "ap-southeast-2"
   WORKING_DIR: "terraform"
   TF_VERSION: "1.10.1"
-  TARGET_ENV: "production"
+  TARGET_ENV: "dev"
 
 permissions:
   id-token: write # This is required for requesting the JWT through OIDC
@@ -55,7 +55,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init --backend-config=backend_config/${{ env.TARGET_ENV }}.tfvars
+        run: terraform init --backend-config=allen/${{ env.TARGET_ENV }}.tfvars
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Validate
