@@ -14,14 +14,14 @@ terraform {
       version = "~> 0.13"
     }
   }
-  #   backend "s3" {
-  #     bucket         = "ecommerce-tfstate-ww"
-  #     key            = "allen/dev/terraform.tfstate"
-  #     dynamodb_table = "allen-tf-lock"
-  #     encrypt        = true
-  #     region         = "ap-southeast-2"
 
-  #   }
+  backend "s3" {
+      bucket         = "ecommerce-tfstate-ww"
+      key            = "allen/dev/terraform.tfstate"
+      dynamodb_table = "allen-tf-lock"
+      encrypt        = true
+      region         = "ap-southeast-2"
+  }
 }
 
 # Configure AWS Provider
