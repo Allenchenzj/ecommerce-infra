@@ -55,7 +55,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init --backend-config=allen/${{ env.TARGET_ENV }}.tfvars
+        run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Validate
@@ -65,14 +65,8 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -var-file "./deploy_env/${{ env.TARGET_ENV }}.tfvars"
+        run: terraform plan -no-color -input=false
         working-directory: ${{ env.WORKING_DIR }}
-
-      - name: Debug OIDC Token
-        run: |
-          echo "OIDC Token: $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
-        env:
-          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ secrets.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
 
   terraform_apply:
     name: Terraform Apply
