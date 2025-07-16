@@ -12,4 +12,4 @@ CREATE OR REPLACE TABLE orders (
   shipping_address VARCHAR,
   created_at TIMESTAMP_NTZ,
   updated_at TIMESTAMP_NTZ
-)
+);

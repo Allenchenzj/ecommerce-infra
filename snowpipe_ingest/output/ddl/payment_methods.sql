@@ -4,4 +4,4 @@ CREATE OR REPLACE TABLE payment_methods (
   code VARCHAR,
   is_active BOOLEAN,
   created_at TIMESTAMP_NTZ
-)
+);

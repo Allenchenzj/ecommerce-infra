@@ -7,4 +7,4 @@ CREATE OR REPLACE TABLE inventory_transactions (
   reference_id BIGINT,
   notes VARCHAR,
   created_at TIMESTAMP_NTZ
-)
+);

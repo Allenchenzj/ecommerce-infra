@@ -7,4 +7,4 @@ CREATE OR REPLACE TABLE payments (
   transaction_id VARCHAR,
   processed_at TIMESTAMP_NTZ,
   created_at TIMESTAMP_NTZ
-)
+);

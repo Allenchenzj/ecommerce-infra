@@ -5,4 +5,4 @@ CREATE OR REPLACE TABLE shipping_methods (
   estimated_days BIGINT,
   is_active BOOLEAN,
   created_at TIMESTAMP_NTZ
-)
+);

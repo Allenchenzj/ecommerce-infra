@@ -8,4 +8,4 @@ CREATE OR REPLACE TABLE suppliers (
   created_at TIMESTAMP_NTZ,
   updated_at TIMESTAMP_NTZ,
   cdc_op VARCHAR
-)
+);

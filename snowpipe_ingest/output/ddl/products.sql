@@ -11,4 +11,4 @@ CREATE OR REPLACE TABLE products (
   created_at TIMESTAMP_NTZ,
   updated_at TIMESTAMP_NTZ,
   cdc_op VARCHAR
-)
+);
