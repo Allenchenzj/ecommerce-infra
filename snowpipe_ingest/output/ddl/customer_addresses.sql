@@ -9,4 +9,4 @@ CREATE OR REPLACE TABLE customer_addresses (
   country VARCHAR,
   is_default BOOLEAN,
   created_at TIMESTAMP_NTZ
-)
+);

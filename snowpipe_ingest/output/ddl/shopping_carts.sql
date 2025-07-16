@@ -6,4 +6,4 @@ CREATE OR REPLACE TABLE shopping_carts (
   quantity BIGINT,
   created_at TIMESTAMP_NTZ,
   updated_at TIMESTAMP_NTZ
-)
+);

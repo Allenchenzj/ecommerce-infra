@@ -7,4 +7,4 @@ CREATE OR REPLACE TABLE order_items (
   total_price FLOAT,
   product_name VARCHAR,
   product_sku VARCHAR
-)
+);

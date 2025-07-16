@@ -7,4 +7,4 @@ CREATE OR REPLACE TABLE categories (
   created_at TIMESTAMP_NTZ,
   updated_at TIMESTAMP_NTZ,
   cdc_op VARCHAR
-)
+);

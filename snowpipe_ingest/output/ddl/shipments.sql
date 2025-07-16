@@ -7,4 +7,4 @@ CREATE OR REPLACE TABLE shipments (
   shipped_at TIMESTAMP_NTZ,
   delivered_at TIMESTAMP_NTZ,
   created_at TIMESTAMP_NTZ
-)
+);

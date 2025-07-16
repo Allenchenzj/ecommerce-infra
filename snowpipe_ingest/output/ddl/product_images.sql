@@ -5,4 +5,4 @@ CREATE OR REPLACE TABLE product_images (
   alt_text VARCHAR,
   is_primary BOOLEAN,
   created_at TIMESTAMP_NTZ
-)
+);
