@@ -1,0 +1,24 @@
+schema: ecommerce_bronze
+name: shopping_carts
+columns:
+- name: cart_id
+  type: BIGINT
+  comment: ''
+- name: customer_id
+  type: FLOAT
+  comment: ''
+- name: session_id
+  type: VARCHAR
+  comment: ''
+- name: product_id
+  type: BIGINT
+  comment: ''
+- name: quantity
+  type: BIGINT
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: updated_at
+  type: TIMESTAMP_NTZ
+  comment: ''

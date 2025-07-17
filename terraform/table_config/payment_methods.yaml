@@ -1,0 +1,18 @@
+schema: ecommerce_bronze
+name: payment_methods
+columns:
+- name: method_id
+  type: BIGINT
+  comment: ''
+- name: name
+  type: VARCHAR
+  comment: ''
+- name: code
+  type: VARCHAR
+  comment: ''
+- name: is_active
+  type: BOOLEAN
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''

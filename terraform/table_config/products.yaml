@@ -1,0 +1,39 @@
+schema: ecommerce_bronze
+name: products
+columns:
+- name: product_id
+  type: BIGINT
+  comment: ''
+- name: name
+  type: VARCHAR
+  comment: ''
+- name: description
+  type: VARCHAR
+  comment: ''
+- name: category_id
+  type: BIGINT
+  comment: ''
+- name: price
+  type: FLOAT
+  comment: ''
+- name: compare_price
+  type: FLOAT
+  comment: ''
+- name: sku
+  type: VARCHAR
+  comment: ''
+- name: stock_quantity
+  type: BIGINT
+  comment: ''
+- name: is_active
+  type: BOOLEAN
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: updated_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: cdc_op
+  type: VARCHAR
+  comment: ''

@@ -1,0 +1,42 @@
+schema: ecommerce_bronze
+name: orders
+columns:
+- name: order_id
+  type: BIGINT
+  comment: ''
+- name: order_number
+  type: VARCHAR
+  comment: ''
+- name: customer_id
+  type: FLOAT
+  comment: ''
+- name: email
+  type: VARCHAR
+  comment: ''
+- name: status
+  type: VARCHAR
+  comment: ''
+- name: subtotal
+  type: FLOAT
+  comment: ''
+- name: tax_amount
+  type: FLOAT
+  comment: ''
+- name: shipping_amount
+  type: FLOAT
+  comment: ''
+- name: total_amount
+  type: FLOAT
+  comment: ''
+- name: billing_address
+  type: VARCHAR
+  comment: ''
+- name: shipping_address
+  type: VARCHAR
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: updated_at
+  type: TIMESTAMP_NTZ
+  comment: ''

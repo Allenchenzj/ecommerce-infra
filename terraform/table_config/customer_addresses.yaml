@@ -1,0 +1,33 @@
+schema: ecommerce_bronze
+name: customer_addresses
+columns:
+- name: address_id
+  type: BIGINT
+  comment: ''
+- name: customer_id
+  type: BIGINT
+  comment: ''
+- name: address_type
+  type: VARCHAR
+  comment: ''
+- name: street_address
+  type: VARCHAR
+  comment: ''
+- name: city
+  type: VARCHAR
+  comment: ''
+- name: state
+  type: VARCHAR
+  comment: ''
+- name: postal_code
+  type: VARCHAR
+  comment: ''
+- name: country
+  type: VARCHAR
+  comment: ''
+- name: is_default
+  type: BOOLEAN
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''

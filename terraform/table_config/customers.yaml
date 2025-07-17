@@ -1,0 +1,33 @@
+schema: ecommerce_bronze
+name: customers
+columns:
+- name: customer_id
+  type: BIGINT
+  comment: ''
+- name: email
+  type: VARCHAR
+  comment: ''
+- name: password_hash
+  type: VARCHAR
+  comment: ''
+- name: first_name
+  type: VARCHAR
+  comment: ''
+- name: last_name
+  type: VARCHAR
+  comment: ''
+- name: phone
+  type: VARCHAR
+  comment: ''
+- name: is_active
+  type: BOOLEAN
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: updated_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: cdc_op
+  type: VARCHAR
+  comment: ''

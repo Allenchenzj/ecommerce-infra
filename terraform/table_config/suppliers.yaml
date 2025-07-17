@@ -1,0 +1,30 @@
+schema: ecommerce_bronze
+name: suppliers
+columns:
+- name: supplier_id
+  type: BIGINT
+  comment: ''
+- name: name
+  type: VARCHAR
+  comment: ''
+- name: email
+  type: VARCHAR
+  comment: ''
+- name: phone
+  type: VARCHAR
+  comment: ''
+- name: address
+  type: VARCHAR
+  comment: ''
+- name: is_active
+  type: BOOLEAN
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: updated_at
+  type: TIMESTAMP_NTZ
+  comment: ''
+- name: cdc_op
+  type: VARCHAR
+  comment: ''

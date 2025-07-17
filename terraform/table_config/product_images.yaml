@@ -1,0 +1,21 @@
+schema: ecommerce_bronze
+name: product_images
+columns:
+- name: image_id
+  type: BIGINT
+  comment: ''
+- name: product_id
+  type: BIGINT
+  comment: ''
+- name: image_url
+  type: VARCHAR
+  comment: ''
+- name: alt_text
+  type: VARCHAR
+  comment: ''
+- name: is_primary
+  type: BOOLEAN
+  comment: ''
+- name: created_at
+  type: TIMESTAMP_NTZ
+  comment: ''
