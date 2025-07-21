@@ -22,18 +22,18 @@ variable "aws_region" {
 }
 
 # Snowflake Configuration
-variable "snowflake" {
-  description = "Snowflake credentials loaded from AWS Secrets Manager"
-  type = object({
-    snowflake_account_name      = string
-    snowflake_organization_name = string
-    snowflake_username          = string
-    snowflake_password          = string
-    snowflake_role              = string
-    snowflake_warehouse         = string
-  })
-  sensitive = true
-}
+# variable "snowflake" {
+#   description = "Snowflake credentials loaded from AWS Secrets Manager"
+#   type = object({
+#     snowflake_account_name      = string
+#     snowflake_organization_name = string
+#     snowflake_username          = string
+#     snowflake_password          = string
+#     snowflake_role              = string
+#     snowflake_warehouse         = string
+#   })
+#   sensitive = true
+# }
 
 variable "snowflake_database" {
   description = "Snowflake database name"

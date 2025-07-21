@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "terraform/**"
-    branches: [terraform_cicd]
+    branches: [terraform_cicd2]
   pull_request:
     paths:
       - "terraform/**"
@@ -14,7 +14,7 @@ env:
   AWS_REGION: "ap-southeast-2"
   WORKING_DIR: "terraform"
   TF_VERSION: "1.10.1"
-  TARGET_ENV: "dev"
+  TARGET_ENV: "production"
 
 permissions:
   id-token: write # This is required for requesting the JWT through OIDC
@@ -32,10 +32,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Set Snowflake Variables
-        run: |
-          source ./terraform/set-snowflake-vars.sh
 
       # - name: Set Dynamic Environment Variables
       #   id: set_env_vars
@@ -55,7 +51,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init --backend-config=env/${{ env.TARGET_ENV }}/backend.tfvars
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Validate
@@ -70,17 +66,13 @@ jobs:
 
   terraform_apply:
     name: Terraform Apply
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     needs: [terraform_plan]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Set Snowflake Variables
-        run: |
-          source ./terraform/set-snowflake-vars.sh
 
       # - name: Set Dynamic Environment Variables
       #   id: set_env_vars
@@ -105,9 +97,9 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init --backend-config=backend_config/${{ env.TARGET_ENV }}.tfvars
+        run: terraform init --backend-config=env/${{ env.TARGET_ENV }}/backend.tfvars
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Apply
-        run: terraform apply --auto-approve -var-file "./deploy_env/${{ env.TARGET_ENV }}.tfvars"
+        run: terraform apply --auto-approve -var-file "./env/${{ env.TARGET_ENV }}/${{ env.TARGET_ENV }}.tfvars"
         working-directory: "${{ env.WORKING_DIR }}"
