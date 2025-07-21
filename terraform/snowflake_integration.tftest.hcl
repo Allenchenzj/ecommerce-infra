@@ -16,7 +16,7 @@ run "validate_snowflake_resources" {
   }
 
   assert {
-    condition     = contains(keys(module.snowflake), "bronze_tables") 
+    condition     = contains(keys(module.snowflake), "bronze_tables")
     error_message = "Module should have bronze_tables output"
   }
 
