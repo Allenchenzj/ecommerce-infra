@@ -42,14 +42,13 @@ def main():
                 logger.warning(f"Schema mismatch found in file: {path}. Merging schema.")
                 base_schema = handler.merge_schemas(base_schema=base_schema, new_schema=schema)
 
-        ddl = handler.generate_snowflake_ddl(table_name=table_name, schema=base_schema)
+        yaml_dir = "../terraform/table_config"
+        os.makedirs(yaml_dir, exist_ok=True)
+        yaml_path = os.path.join(yaml_dir, f"{table_name}.yaml")
 
-        os.makedirs(ddl_dir, exist_ok=True)
-        ddl_path = os.path.join(ddl_dir, f"{table_name}.sql")
-        with open(ddl_path, "w") as f:
-            f.write(ddl)
+        handler.generate_yaml(table_name=table_name, schema=base_schema, output_path=yaml_path)
 
-        logger.info(f"✅ Generated DDL for table '{table_name}': {ddl_path}")
+        logger.info(f"✅ YAML generated for table '{table_name}': {yaml_path}")
 
 if __name__ == "__main__":
     main()

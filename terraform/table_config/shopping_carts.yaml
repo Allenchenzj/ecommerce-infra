@@ -5,7 +5,7 @@ columns:
   type: BIGINT
   comment: ''
 - name: customer_id
-  type: FLOAT
+  type: BIGINT
   comment: ''
 - name: session_id
   type: VARCHAR

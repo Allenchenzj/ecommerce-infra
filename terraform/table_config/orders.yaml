@@ -8,7 +8,7 @@ columns:
   type: VARCHAR
   comment: ''
 - name: customer_id
-  type: FLOAT
+  type: BIGINT
   comment: ''
 - name: email
   type: VARCHAR

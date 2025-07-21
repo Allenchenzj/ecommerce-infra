@@ -2,6 +2,7 @@ import boto3
 import pyarrow.parquet as pq
 import pyarrow.fs as pafs
 import logging
+import yaml
 
 logger=logging.getLogger(__name__)
 
@@ -82,4 +83,20 @@ class S3SchemaHandler:
         ddl.append(");")
         return "\n".join(ddl)
     
-    
+    def generate_yaml(self, table_name, schema, output_path, default_schema="ecommerce_bronze"):
+        columns = []
+        for field in schema:
+            columns.append({
+                "name": field.name,
+                "type": self.arrow_to_snowflake_type(field.type),
+                "comment": ""
+            })
+
+        table_yaml = {
+            "schema": default_schema,
+            "name": table_name,
+            "columns": columns
+        }
+
+        with open(output_path, "w") as f:
+            yaml.dump(table_yaml, f, sort_keys=False)

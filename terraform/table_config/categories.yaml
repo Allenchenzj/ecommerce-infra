@@ -11,7 +11,7 @@ columns:
   type: VARCHAR
   comment: ''
 - name: parent_id
-  type: BIGINT
+  type: FLOAT
   comment: ''
 - name: is_active
   type: BOOLEAN
