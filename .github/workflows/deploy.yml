@@ -26,7 +26,7 @@ concurrency: production_environment
 
 jobs:
   terraform_plan:
-    name: "Terraform Run"
+    name: "Terraform Plan, Validate, and Test"
     runs-on: ubuntu-latest
 
     steps:
@@ -65,7 +65,7 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }}
 
   terraform_apply:
-    name: Terraform Apply
+    name: Terraform Apply. Deploy Resources
     # if: github.ref == 'refs/heads/main'
     needs: [terraform_plan]
     runs-on: ubuntu-latest

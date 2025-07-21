@@ -1,0 +1,52 @@
+name: "Destroy Resources"
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Enter the AWS environment to destroy all resources"
+        required: true
+        default: "dev"
+
+env:
+  AWS_REGION: "ap-southeast-2"
+  WORKING_DIR: "terraform"
+  TF_VERSION: "1.10.1"
+  TARGET_ENV: ${{ github.event.inputs.env }}
+
+permissions:
+  id-token: write # This is required for requesting the JWT through OIDC
+  contents: read # This is required for actions/checkout
+  pull-requests: write # This is required for adding Terraform plan detail as comment to the PR
+
+# Will queue job according to default settings
+concurrency: production_environment
+
+jobs:
+  terraform_destroy:
+    name: Terraform Destroy. Remove Resources
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role"
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init --backend-config=env/${{ env.TARGET_ENV }}/backend.tfvars
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Destroy
+        run: terraform destroy --auto-approve -var-file "./env/${{ env.TARGET_ENV }}/${{ env.TARGET_ENV }}.tfvars"
+        working-directory: "${{ env.WORKING_DIR }}"
