@@ -71,7 +71,7 @@ jobs:
 
       - name: Terraform Test
         id: test
-        run: terraform test -auto-approve -var-file="env/test/test.tfvars"
+        run: terraform test -var-file="env/test/test.tfvars"
         working-directory: ${{ env.WORKING_DIR }}
 
   terraform_apply:
