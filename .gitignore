@@ -1,3 +1,4 @@
 .envrc
 terraform/.terraform/**
 terraform/.terraform_state
+debug.log

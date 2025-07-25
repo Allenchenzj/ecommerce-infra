@@ -1,39 +1,117 @@
+name: "Deploy Resources"
+
 on:
   push:
-    branches: [main]
     paths:
-      - "infra/**"
+      - "terraform/**"
+    branches: [feature/add-s3-parquet-snowflake-ddl]
   pull_request: 
-    branches: [main]
     paths:
-      - "infra/**"
+      - "terraform/**"       
+    branches: [main]
   workflow_dispatch:
-  
+
+env:
+  AWS_REGION: "ap-southeast-2"
+  WORKING_DIR: "terraform/"
+  TF_VERSION: "1.10.1"
+  TARGET_ENV: "production"
+
 permissions:
   id-token: write # This is required for requesting the JWT(JSON Web Token) through OIDC
   contents: read # This is required for actions/checkout
   pull-requests: write # This is required for adding Terraform plan detail as comment to the PR
 
-env:
-  AWS_REGION: "ap-southeast-2"
-  WORKING_DIR: "infra/"
-  TF_VERSION: "1.10.1"
+# Will queue job according to default settings
+concurrency: production_environment
 
 jobs:
   terraform_plan:
-    name: Terraform Plan
+    name: Terraform validate, plan and test
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # - name: Set Dynamic Environment Variables
+      #   id: set_env_vars
+      #   run: |
+      #     echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role"
+          role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role-yl"
           aws-region: ${{ env.AWS_REGION }}
-          role-session-name: "GitHubActionsSession"
+          role-session-name: "GitHubActionsSession-${{ github.job }}-${{ github.run_number }}"
 
       - name: Validate the role works
         run: aws s3 ls s3://ecommerce-data-ww/ecommerce-raw/
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      
+      - name: terraform init
+        id: init
+        run: terraform init -reconfigure -backend-config="env/${{ env.TARGET_ENV }}/backend.tfvars"
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file="env/${{ env.TARGET_ENV }}/${{ env.TARGET_ENV }}.tfvars" -no-color -out=tfplan -input=false
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Test
+        id: test
+        run: terraform test -auto-approve -var-file="env/test/test.tfvars"
+        working-directory: ${{ env.WORKING_DIR }}
+
+  terraform_apply:
+      name: Terraform Apply. Deploy Resources
+      # if: github.ref == 'refs/heads/feature/add-s3-parquet-snowflake-ddl' && github.event_name == 'push' && github.event.head_commit.message != 'skip deploy'
+      needs: [terraform_plan]
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        # - name: Set Dynamic Environment Variables
+        #   id: set_env_vars
+        #   run: |
+        #     echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
+
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            role-to-assume: "arn:aws:iam::249133131018:role/ecommerce-cicd-deployment-role-yl"
+            aws-region: ${{ env.AWS_REGION }}
+            role-session-name: "GitHubActionsSession-${{ github.job }}-${{ github.run_number }}"
+
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v2
+          with:
+            terraform_version: ${{ env.TF_VERSION }}
+
+        - name: Terraform Format
+          working-directory: ./terraform
+          id: fmt
+          run: terraform fmt -check -recursive -diff -no-color
+        
+        - name: terraform init
+          id: init
+          run: terraform init -reconfigure -backend-config="env/${{ env.TARGET_ENV }}/backend.tfvars"
+          working-directory: ${{ env.WORKING_DIR }}
+
+        - name: Terraform Apply
+          id: apply
+          run: terraform apply -auto-approve -var-file="env/${{ env.TARGET_ENV }}/${{ env.TARGET_ENV }}.tfvars" 
+          working-directory: ${{ env.WORKING_DIR }}
