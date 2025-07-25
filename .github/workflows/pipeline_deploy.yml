@@ -104,7 +104,7 @@ jobs:
         - name: Terraform Format
           working-directory: ./terraform
           id: fmt
-          run: terraform fmt -check -recursive -diff -no-color
+          run: terraform fmt -check
         
         - name: terraform init
           id: init
