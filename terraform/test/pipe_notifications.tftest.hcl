@@ -2,7 +2,7 @@
 # Validates pipe creation and SQS notification channel ARNs
 
 variables {
-  environment = "test"
+  environment        = "test"
   snowflake_database = "ECOMMERCE_DB_TEST"
 }
 

@@ -17,8 +17,8 @@ resource "snowflake_table" "bronze_table" {
   dynamic "column" {
     for_each = each.value.columns
     content {
-      name    = column.value.name
-      type    = column.value.type
+      name = column.value.name
+      type = column.value.type
       # nullable = column.value.nullable
       comment = column.value.comment
     }
@@ -34,7 +34,7 @@ resource "snowflake_stage" "bronze_stage" {
   url                 = var.stage.url
   storage_integration = var.stage.storage_integration
   comment             = var.stage.comment
-  
+
   depends_on = [snowflake_schema.schemas]
 }
 

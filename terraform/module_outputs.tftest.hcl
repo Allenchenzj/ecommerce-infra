@@ -2,7 +2,7 @@
 # Validates all outputs from the Snowflake module
 
 variables {
-  environment = "test"
+  environment        = "test"
   snowflake_database = "ECOMMERCE_DB_TEST"
 }
 

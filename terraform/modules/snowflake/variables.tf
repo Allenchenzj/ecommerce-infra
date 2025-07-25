@@ -31,12 +31,12 @@ variable "schemas" {
 variable "table_configs" {
   description = "Table configurations parsed from YAML files"
   type = map(object({
-    name  = string
-    schema      = string
+    name   = string
+    schema = string
     # description = string
     columns = list(object({
-      name        = string
-      type        = string
+      name = string
+      type = string
       # nullable    = bool
       comment = string
     }))
@@ -63,12 +63,12 @@ variable "raw_prefix" {
   description = "The prefix under the bucket where raw data is stored"
   type        = string
   # This prefix is used to organize raw data files in the S3 bucket
-  default     = "ecommerce-raw"
+  default = "ecommerce-raw"
 }
 
 variable "file_suffix" {
   description = "File suffix to trigger notification (e.g. .parquet)"
   type        = string
   # This suffix is used to filter files for processing in Snowpipe
-  default     = ".parquet"
+  default = ".parquet"
 }

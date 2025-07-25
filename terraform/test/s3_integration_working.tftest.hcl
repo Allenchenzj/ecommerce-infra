@@ -1,7 +1,7 @@
 # Test S3 integration components for Snowpipe
 
 variables {
-  environment = "test"
+  environment        = "test"
   snowflake_database = "ECOMMERCE_DB_TEST"
 }
 
@@ -14,7 +14,7 @@ run "validate_s3_integration_components" {
     error_message = "Module should have at least 5 outputs for complete integration"
   }
 
-# Test that module has schemas output
+  # Test that module has schemas output
   assert {
     condition     = contains(keys(module.snowflake), "schemas")
     error_message = "Module should have schemas output"

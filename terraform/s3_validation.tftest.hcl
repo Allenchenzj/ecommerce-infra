@@ -2,7 +2,7 @@
 # Tests the aspects of S3 integration that are available in test context
 
 variables {
-  environment = "test"
+  environment        = "test"
   snowflake_database = "ECOMMERCE_DB_TEST"
 }
 

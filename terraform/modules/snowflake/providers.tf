@@ -1,9 +1,9 @@
 terraform {
-  
+
   required_version = ">= 1.0"
 
   required_providers {
-      snowflake = {
+    snowflake = {
       source  = "snowflakedb/snowflake"
       version = "~> 0.13"
     }
