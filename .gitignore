@@ -2,3 +2,5 @@
 terraform/.terraform/**
 terraform/.terraform_state
 debug.log
+_pycache_/
+*.py[cod]
