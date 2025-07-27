@@ -20,7 +20,7 @@ env:
   AWS_REGION: "ap-southeast-2"
   WORKING_DIR: "terraform/"
   TF_VERSION: "1.10.1"
-  # TARGET_ENV: "${{ github.event.inputs.env }}" # Default value, can be overridden by workflow_dispatch input
+  TARGET_ENV: ${{ github.event.inputs.env || 'dev' }} # Default value, can be overridden by workflow_dispatch input
 
 permissions:
   id-token: write # This is required for requesting the JWT(JSON Web Token) through OIDC
@@ -42,11 +42,7 @@ jobs:
       - name: Set Dynamic Environment Variables
         id: set_env_vars
         run: |
-          TARGET_ENV=${{ github.event.inputs.env }}
-          if [ -z "$TARGET_ENV" ]; then
-            TARGET_ENV="dev"
-          fi
-          echo "TARGET_ENV=$TARGET_ENV" >> $GITHUB_ENV
+          echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -65,7 +61,7 @@ jobs:
       
       - name: terraform init
         id: init
-        run: terraform init -reconfigure -backend-config="env/$TARGET_ENV/backend.tfvars"
+        run: terraform init -reconfigure -backend-config="env/${{ env.TARGET_ENV }}/backend.tfvars"
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Validate
@@ -75,7 +71,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file="env/$TARGET_ENV/$TARGET_ENV.tfvars" -no-color -out=tfplan -input=false
+        run: terraform plan -var-file="env/${{ env.TARGET_ENV }}/${{ env.TARGET_ENV }}.tfvars" -no-color -out=tfplan -input=false
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform Test
@@ -117,10 +113,10 @@ jobs:
         
         - name: terraform init
           id: init
-          run: terraform init -reconfigure -backend-config="env/$TARGET_ENV/backend.tfvars"
+          run: terraform init -reconfigure -backend-config="env/${{ env.TARGET_ENV }}/backend.tfvars"
           working-directory: ${{ env.WORKING_DIR }}
 
         - name: Terraform Apply
           id: apply
-          run: terraform apply -auto-approve -var-file="env/$TARGET_ENV/$TARGET_ENV.tfvars"
+          run: terraform apply -auto-approve -var-file="env/${{ env.TARGET_ENV }}/${{ env.TARGET_ENV }}.tfvars" 
           working-directory: ${{ env.WORKING_DIR }}
