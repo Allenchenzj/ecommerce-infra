@@ -20,7 +20,7 @@ env:
   AWS_REGION: "ap-southeast-2"
   WORKING_DIR: "terraform/"
   TF_VERSION: "1.10.1"
-  TARGET_ENV: ${{ github.event.inputs.env || 'dev' }} # Default value, can be overridden by workflow_dispatch input
+  TARGET_ENV: "${{ github.event.inputs.env || 'dev' }}" # Default value, can be overridden by workflow_dispatch input
 
 permissions:
   id-token: write # This is required for requesting the JWT(JSON Web Token) through OIDC
