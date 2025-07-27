@@ -42,7 +42,11 @@ jobs:
       - name: Set Dynamic Environment Variables
         id: set_env_vars
         run: |
-          echo "TARGET_ENV=${{ github.event.inputs.env }}" >> $GITHUB_ENV
+          TARGET_ENV=${{ github.event.inputs.env }}
+          if [ -z "$TARGET_ENV" ]; then
+            TARGET_ENV="dev"
+          fi
+          echo "TARGET_ENV=$TARGET_ENV" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
