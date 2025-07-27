@@ -76,7 +76,7 @@ jobs:
 
   terraform_deploy:
       name: Terraform Apply. Deploy Resources
-      if: github.ref == 'refs/heads/feature/add-s3-parquet-snowflake-ddl' && github.event_name == 'push' && github.event.head_commit.message != 'skip deploy'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && github.event.head_commit.message != 'skip deploy'
       needs: [terraform_test]
       runs-on: ubuntu-latest
 
