@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "terraform/**"
-    branches: [feature/add-s3-parquet-snowflake-ddl]
+    branches: [main]
   pull_request: 
     paths:
       - "terraform/**"       
