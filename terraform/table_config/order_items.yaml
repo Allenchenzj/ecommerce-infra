@@ -1,0 +1,27 @@
+schema: ecommerce_bronze
+name: order_items
+columns:
+- name: order_item_id
+  type: BIGINT
+  comment: ''
+- name: order_id
+  type: BIGINT
+  comment: ''
+- name: product_id
+  type: BIGINT
+  comment: ''
+- name: quantity
+  type: BIGINT
+  comment: ''
+- name: unit_price
+  type: FLOAT
+  comment: ''
+- name: total_price
+  type: FLOAT
+  comment: ''
+- name: product_name
+  type: VARCHAR
+  comment: ''
+- name: product_sku
+  type: VARCHAR
+  comment: ''

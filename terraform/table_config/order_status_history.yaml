@@ -1,0 +1,21 @@
+schema: ecommerce_bronze
+name: order_status_history
+columns:
+- name: history_id
+  type: BIGINT
+  comment: ''
+- name: order_id
+  type: BIGINT
+  comment: ''
+- name: old_status
+  type: VARIANT
+  comment: ''
+- name: new_status
+  type: VARCHAR
+  comment: ''
+- name: notes
+  type: VARCHAR
+  comment: ''
+- name: changed_at
+  type: TIMESTAMP_NTZ
+  comment: ''
